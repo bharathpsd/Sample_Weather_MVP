@@ -27,13 +27,11 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
     AutocompleteFilter filter;
     String area;
     TextView place,temp,min,max,humidity,wind,weather;
-    MVP_VP.mvp_view iView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         presenter = new WeatherPresenter(this);
-        setView(this);
         place = findViewById(R.id.place);
         temp = findViewById(R.id.temp);
         min = findViewById(R.id.min_temp);
@@ -99,10 +97,5 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
     @Override
     public void updateWeather(String weather) {
         this.weather.setText(weather);
-    }
-
-
-    public void setView(MVP_VP.mvp_view view) {
-        iView = view;
     }
 }
