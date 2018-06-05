@@ -15,8 +15,6 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import java.io.IOException;
-
 public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
     protected GeoDataClient mGeoDataClient;
     AutoCompleteTextView autoCompleteTextView;
@@ -46,13 +44,12 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
 
         autoCompleteTextView = findViewById(R.id.autocomplete);
         filter = new AutocompleteFilter.Builder().setCountry("US").build();
-        mGeoDataClient = Places.getGeoDataClient(this, null);
+        mGeoDataClient = Places.getGeoDataClient(this);
         placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this,mGeoDataClient,LAT_LNG_BOUNDS,filter);
         autoCompleteTextView.setAdapter(placeAutoCompleteAdapter);
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
-                //TODO Do something with the selected text
                 Toast.makeText(MainActivity.this,autoCompleteTextView.getText(),Toast.LENGTH_SHORT).show();
                 setArea(autoCompleteTextView.getText().toString());
                     presenter.updateView();
@@ -107,9 +104,5 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
 
     public void setView(MVP_VP.mvp_view view) {
         iView = view;
-    }
-
-    public MVP_VP.mvp_view getiView() {
-        return iView;
     }
 }
