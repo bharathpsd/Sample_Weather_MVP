@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Weather_MVP</string>
+    <string name="imageview">ImageView</string>
+    <string name="enter_a_city_place">Enter a City/Place</string>
+    <string name="google_api_key">AIzaSyDgT6be8nQawLLpS4rylPf_Cp7zpZDVu8Y</string>
+    <string name="place">Place</string>
+    <string name="area">area</string>
+    <string name="temp">Temperature</string>
+    <string name="min">Minimum</string>
+    <string name="max">Maximum</string>
+    <string name="hum">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="desc">Weather</string>
+</resources>
