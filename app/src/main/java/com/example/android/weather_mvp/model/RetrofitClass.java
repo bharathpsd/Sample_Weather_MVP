@@ -29,7 +29,6 @@ public class RetrofitClass {
             public void onResponse(@NonNull Call<WeatherModel> call, @NonNull Response<WeatherModel> response) {
                 weatherModel = response.body();
                 weatherPresenter.updateViews(weatherModel);
-                Log.e("Response----> ",response.body().toString());
             }
 
             @Override
