@@ -30,7 +30,6 @@ public class RetrofitClass {
             public void onResponse(@NonNull Call<WeatherModel> call, @NonNull Response<WeatherModel> response) {
                 if(response.isSuccessful()) {
                     weatherModel = response.body();
-//                weatherPresenter.updateViews(weatherModel);
                     bus.post(weatherModel);
                 } else {
                     presenter.updateViews();
