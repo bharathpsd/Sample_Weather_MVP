@@ -142,22 +142,13 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view {
 
     @Subscribe
     public void onEvent(WeatherModel iModel){
-        if (iModel != null) {
             updateTemperature(String.valueOf(Math.round(iModel.getMain().getTemp())));
             updateMin(String.valueOf(Math.round(iModel.getMain().getTempMin())));
             updateMax(String.valueOf(Math.round(iModel.getMain().getTempMax())));
             updateHumidity(String.valueOf(Math.round(iModel.getMain().getHumidity())));
             updateWind(String.valueOf(Math.round(iModel.getWind().getSpeed())));
             updateWeather(iModel.getWeather().get(0).getDescription());
-        } else {
-            updateErrorCard();
-            updateTemperature("");
-            updateMin("");
-            updateMax("");
-            updateHumidity("");
-            updateWind("");
-            updateWeather("");
-        }
+        
     }
 
 }
