@@ -10,12 +10,16 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
+import com.example.android.weather_mvp.model.WeatherModel;
 import com.example.android.weather_mvp.presenter.WeatherPresenter;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 
 public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view {
@@ -30,14 +34,28 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view {
     WeatherPresenter presenter;
     AutocompleteFilter filter;
     String area;
-//    String cityName = null;
     TextView place, temp, min, max, humidity, wind, weather;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         presenter = new WeatherPresenter(this);
+
+        //Initialize views
+
         place = findViewById(R.id.place);
         temp = findViewById(R.id.temp);
         min = findViewById(R.id.min_temp);
@@ -46,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view {
         wind = findViewById(R.id.wind_speed);
         weather = findViewById(R.id.weather_desc);
         cardView = findViewById(R.id.error_card);
+
+
         cardView.setVisibility(View.INVISIBLE);
         autoCompleteTextView = findViewById(R.id.autocomplete);
         filter = new AutocompleteFilter.Builder().setCountry("US").build();
@@ -118,6 +138,26 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view {
     @Override
     public  void updateErrorCard(){
         this.cardView.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe
+    public void onEvent(WeatherModel iModel){
+        if (iModel != null) {
+            updateTemperature(String.valueOf(Math.round(iModel.getMain().getTemp())));
+            updateMin(String.valueOf(Math.round(iModel.getMain().getTempMin())));
+            updateMax(String.valueOf(Math.round(iModel.getMain().getTempMax())));
+            updateHumidity(String.valueOf(Math.round(iModel.getMain().getHumidity())));
+            updateWind(String.valueOf(Math.round(iModel.getWind().getSpeed())));
+            updateWeather(iModel.getWeather().get(0).getDescription());
+        } else {
+            updateErrorCard();
+            updateTemperature("");
+            updateMin("");
+            updateMax("");
+            updateHumidity("");
+            updateWind("");
+            updateWeather("");
+        }
     }
 
 }
