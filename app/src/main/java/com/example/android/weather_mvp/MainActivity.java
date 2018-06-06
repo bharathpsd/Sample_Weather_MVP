@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view {
             updateHumidity(String.valueOf(Math.round(iModel.getMain().getHumidity())));
             updateWind(String.valueOf(Math.round(iModel.getWind().getSpeed())));
             updateWeather(iModel.getWeather().get(0).getDescription());
-        
+
     }
 
 }
