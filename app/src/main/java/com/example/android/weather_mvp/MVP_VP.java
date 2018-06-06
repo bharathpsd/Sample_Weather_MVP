@@ -12,6 +12,7 @@ public interface MVP_VP {
          void updateHumidity(String hum);
          void updateWind(String wind);
          void updateWeather(String weather);
+         void updateErrorCard();
     }
     interface mvp_presentor{
         void updateView() throws IOException;

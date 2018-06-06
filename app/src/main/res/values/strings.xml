@@ -11,4 +11,8 @@
     <string name="hum">Humidity</string>
     <string name="wind">Wind</string>
     <string name="desc">Weather</string>
+    <string name="km_h">  km/h</string>
+    <string name="per">%</string>
+    <string name="celcius">°C</string>
+    <string name="error">Couldn\'t Find Data for this Place</string>
 </resources>

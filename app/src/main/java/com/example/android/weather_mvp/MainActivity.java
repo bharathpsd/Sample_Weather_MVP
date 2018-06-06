@@ -1,12 +1,14 @@
 package com.example.android.weather_mvp;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.weather_mvp.presenter.WeatherPresenter;
 import com.google.android.gms.location.places.AutocompleteFilter;
@@ -15,18 +17,22 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
+
+public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view {
     protected GeoDataClient mGeoDataClient;
     AutoCompleteTextView autoCompleteTextView;
     PlaceAutoCompleteAdapter placeAutoCompleteAdapter;
+    CardView cardView;
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
-            new LatLng(-40,-168),new LatLng(71,136)
-    ) ;
+            new LatLng(-40, -168), new LatLng(71, 136)
+    );
 
     WeatherPresenter presenter;
     AutocompleteFilter filter;
     String area;
-    TextView place,temp,min,max,humidity,wind,weather;
+//    String cityName = null;
+    TextView place, temp, min, max, humidity, wind, weather;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
         humidity = findViewById(R.id.humidity);
         wind = findViewById(R.id.wind_speed);
         weather = findViewById(R.id.weather_desc);
-
+        cardView = findViewById(R.id.error_card);
+        cardView.setVisibility(View.INVISIBLE);
         autoCompleteTextView = findViewById(R.id.autocomplete);
         filter = new AutocompleteFilter.Builder().setCountry("US").build();
         mGeoDataClient = Places.getGeoDataClient(this);
@@ -48,10 +55,19 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
-                Toast.makeText(MainActivity.this,autoCompleteTextView.getText(),Toast.LENGTH_SHORT).show();
-                setArea(autoCompleteTextView.getText().toString());
-                    presenter.updateView();
 
+                if(cardView.getVisibility() == View.VISIBLE){
+                    cardView.setVisibility(View.INVISIBLE);
+                }
+
+                setArea(autoCompleteTextView.getText().toString());
+                autoCompleteTextView.setText("");
+                    presenter.updateView();
+                InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(
+                        autoCompleteTextView.getWindowToken(), 0);
             }
         });
     }
@@ -98,4 +114,10 @@ public class MainActivity extends AppCompatActivity implements MVP_VP.mvp_view{
     public void updateWeather(String weather) {
         this.weather.setText(weather);
     }
+
+    @Override
+    public  void updateErrorCard(){
+        this.cardView.setVisibility(View.VISIBLE);
+    }
+
 }
