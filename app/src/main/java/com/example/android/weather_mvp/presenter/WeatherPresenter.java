@@ -18,6 +18,12 @@ public class WeatherPresenter implements MVP_VP.mvp_presentor,MVP_PM.presenter {
 
     public void updateViews() {
         iView.updateErrorCard();
+        iView.updateTemperature("");
+        iView.updateWeather("");
+        iView.updateWind("");
+        iView.updateHumidity("");
+        iView.updateMax("");
+        iView.updateMin("");
     }
 
 
